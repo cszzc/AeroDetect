@@ -1,25 +1,125 @@
 <div align="center">
   <p>
-    <a href="https://www.ultralytics.com/events/yolovision" target="_blank">
-      <img width="100%" src="https://raw.githubusercontent.com/ultralytics/assets/main/yolov8/banner-yolov8.png" alt="YOLO Vision banner"></a>
+    <a href="https://github.com/cszzc/AeroDetect" target="_blank">
+      <img width="100%" src="https://raw.githubusercontent.com/ultralytics/assets/main/yolov8/banner-yolov8.png" alt="AeroDetect banner"></a>
   </p>
 
-[中文](https://docs.ultralytics.com/zh) | [한국어](https://docs.ultralytics.com/ko) | [日本語](https://docs.ultralytics.com/ja) | [Русский](https://docs.ultralytics.com/ru) | [Deutsch](https://docs.ultralytics.com/de) | [Français](https://docs.ultralytics.com/fr) | [Español](https://docs.ultralytics.com/es) | [Português](https://docs.ultralytics.com/pt) | [Türkçe](https://docs.ultralytics.com/tr) | [Tiếng Việt](https://docs.ultralytics.com/vi) | [العربية](https://docs.ultralytics.com/ar) <br>
-
-<div>
-    <a href="https://github.com/ultralytics/ultralytics/actions/workflows/ci.yaml"><img src="https://github.com/ultralytics/ultralytics/actions/workflows/ci.yaml/badge.svg" alt="Ultralytics CI"></a>
-    <a href="https://pepy.tech/projects/ultralytics"><img src="https://static.pepy.tech/badge/ultralytics" alt="Ultralytics Downloads"></a>
-    <a href="https://zenodo.org/badge/latestdoi/264818686"><img src="https://zenodo.org/badge/264818686.svg" alt="Ultralytics YOLO Citation"></a>
-    <a href="https://discord.com/invite/ultralytics"><img alt="Ultralytics Discord" src="https://img.shields.io/discord/1089800235347353640?logo=discord&logoColor=white&label=Discord&color=blue"></a>
-    <a href="https://community.ultralytics.com/"><img alt="Ultralytics Forums" src="https://img.shields.io/discourse/users?server=https%3A%2F%2Fcommunity.ultralytics.com&logo=discourse&label=Forums&color=blue"></a>
-    <a href="https://reddit.com/r/ultralytics"><img alt="Ultralytics Reddit" src="https://img.shields.io/reddit/subreddit-subscribers/ultralytics?style=flat&logo=reddit&logoColor=white&label=Reddit&color=blue"></a>
-    <br>
-    <a href="https://console.paperspace.com/github/ultralytics/ultralytics"><img src="https://assets.paperspace.io/img/gradient-badge.svg" alt="Run Ultralytics on Gradient"></a>
-    <a href="https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Ultralytics In Colab"></a>
-    <a href="https://www.kaggle.com/models/ultralytics/yolo11"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open Ultralytics In Kaggle"></a>
-    <a href="https://mybinder.org/v2/gh/ultralytics/ultralytics/HEAD?labpath=examples%2Ftutorial.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Open Ultralytics In Binder"></a>
-</div>
+<a href="https://github.com/cszzc/AeroDetect/actions/workflows/ci.yaml"><img src="https://github.com/ultralytics/ultralytics/actions/workflows/ci.yaml/badge.svg" alt="AeroDetect CI"></a>
+<a href="https://zenodo.org/badge/latestdoi/264818686"><img src="https://zenodo.org/badge/264818686.svg" alt="AeroDetect Citation"></a>
 <br>
+</div>
+
+## 🚀 Overview
+
+**AeroDetect** is an advanced object detection system based on YOLOv11, specifically designed for aerial imagery from drones and UAVs. This project utilizes the [VisDrone2019-DET dataset](https://github.com/VisDrone/VisDrone-Dataset) and implements a custom AFPN (Advanced Feature Pyramid Network) architecture to achieve high-precision detection of various objects in aerial scenes.
+
+## 🎯 Key Features
+
+- Based on state-of-the-art YOLOv11 architecture
+- Custom AFPN (Advanced Feature Pyramid Network) implementation for improved feature extraction
+- Optimized for aerial object detection using VisDrone2019-DET dataset
+- Supports detection of 10 object categories including pedestrians, vehicles, and bicycles
+- Easy-to-use training and evaluation pipeline
+
+## 📦 Object Categories
+
+The project supports detection of the following 10 object categories in aerial imagery:
+
+0. `pedestrian` - 行人
+1. `people` - 人群
+2. `bicycle` - 自行车
+3. `car` - 汽车
+4. `van` - 面包车
+5. `truck` - 卡车
+6. `tricycle` - 三轮车
+7. `awning-tricycle` - 篷三轮车
+8. `bus` - 公交车
+9. `motor` - 摩托车
+
+## 🛠️ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/cszzc/AeroDetect.git
+cd AeroDetect
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+## 🚀 Quick Start
+
+### Training
+
+```bash
+# Navigate to the demo directory
+cd demo
+
+# Start training with custom AFPN architecture
+python start_train.py
+```
+
+The training script uses the following configuration:
+- Model: Custom AFPN architecture (`AFPN.yaml`)
+- Dataset: VisDrone2019-DET (`AAA_my_datasets.yaml`)
+- Image size: 640x640
+- Epochs: 100
+- Batch size: 8
+- Optimizer: SGD
+
+### Validation
+
+```bash
+# Validate trained model
+python val.py --weights path/to/best.pt --data ../ultralytics/cfg/datasets/AAA_my_datasets.yaml
+```
+
+## 📁 Project Structure
+
+```
+AeroDetect/
+├── demo/                    # Training and validation scripts
+│   ├── start_train.py      # Training script
+│   ├── val.py              # Validation script
+│   └── ...                 # Other utility scripts
+├── ultralytics/            # Core YOLO implementation
+├── visdrone/               # VisDrone dataset (not included in repo)
+├── requirements.txt        # Project dependencies
+└── README.md              # This file
+```
+
+## 📊 Model Architecture
+
+This project implements a custom AFPN (Advanced Feature Pyramid Network) based on YOLOv11. The architecture includes:
+
+- Enhanced feature pyramid for multi-scale detection
+- Improved C3k2 blocks for better feature extraction
+- SPPF (Spatial Pyramid Pooling Fast) for global context aggregation
+- C2PSA module for enhanced feature representation
+
+## 📚 Dataset
+
+The project is designed to work with the [VisDrone2019-DET dataset](https://github.com/VisDrone/VisDrone-Dataset), which contains:
+
+- Training set: 6,471 images
+- Validation set: 548 images
+- Testing set: 1,610 images
+
+Each image is annotated with bounding boxes for the 10 object categories listed above.
+
+## 🤝 Contributing
+
+We welcome contributions to improve AeroDetect! Please feel free to submit issues, fork the repository, and send pull requests.
+
+## 📄 License
+
+This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+- Based on [Ultralytics YOLOv11](https://github.com/ultralytics/ultralytics)
+- Uses the [VisDrone Dataset](https://github.com/VisDrone/VisDrone-Dataset)
+- Inspired by recent advances in object detection and computer vision
 
 [Ultralytics](https://www.ultralytics.com/) [YOLO11](https://github.com/ultralytics/ultralytics) is a cutting-edge, state-of-the-art (SOTA) model that builds upon the success of previous YOLO versions and introduces new features and improvements to further boost performance and flexibility. YOLO11 is designed to be fast, accurate, and easy to use, making it an excellent choice for a wide range of object detection and tracking, instance segmentation, image classification and pose estimation tasks.
 
@@ -44,7 +144,7 @@ To request an Enterprise License please complete the form at [Ultralytics Licens
   <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="2%" alt="space">
   <a href="https://discord.com/invite/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-discord.png" width="2%" alt="Ultralytics Discord"></a>
 </div>
-</div>
+```
 
 ## <div align="center">Documentation</div>
 
