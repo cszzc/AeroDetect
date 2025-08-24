@@ -9,6 +9,8 @@
 <br>
 </div>
 
+# AeroDetect: Advanced YOLOv11 for Aerial Object Detection
+
 ## 🚀 Overview
 
 **AeroDetect** is an advanced object detection system based on YOLOv11, specifically designed for aerial imagery from drones and UAVs. This project utilizes the [VisDrone2019-DET dataset](https://github.com/VisDrone/VisDrone-Dataset) and implements a custom AFPN (Advanced Feature Pyramid Network) architecture to achieve high-precision detection of various objects in aerial scenes.
