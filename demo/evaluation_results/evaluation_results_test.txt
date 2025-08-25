@@ -1,0 +1,39 @@
+YOLO Model Evaluation Results
+==================================================
+Model: /root/autodl-tmp/ultralytics-mainPro/demo/runs/train/exp_AFPNPro/weights/best.pt
+Dataset: ultralytics/cfg/datasets/AAA_my_datasets.yaml
+Split: test
+Image Size: 640
+Confidence Threshold: 0.001
+IoU Threshold: 0.6
+==================================================
+Overall Detection Metrics:
+  mAP@0.5:       0.3061
+  mAP@0.5:0.95:  0.1695
+  Precision:     0.4123
+  Recall:        0.3319
+  F1-Score:      0.3500
+
+Per-Class mAP@0.5 Metrics:
+  pedestrian     : 0.2962
+  people         : 0.1770
+  bicycle        : 0.0733
+  car            : 0.7343
+  van            : 0.3610
+  truck          : 0.3086
+  tricycle       : 0.1277
+  awning-tricycle: 0.1636
+  bus            : 0.5167
+  motor          : 0.3022
+
+Additional Metrics:
+  Number of Classes: 10
+  mP:            0.4123
+  mR:            0.3319
+
+Inference Speed Metrics:
+  Preprocess:    0.15ms per image
+  Inference:     4.42ms per image
+  Postprocess:   4.43ms per image
+  Total:         9.01ms per image
+  FPS:           111.05 frames per second

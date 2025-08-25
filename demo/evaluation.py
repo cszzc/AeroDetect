@@ -84,9 +84,9 @@ def main():
         print("Overall Detection Metrics:")
         print(f"  mAP@0.5:       {results.box.map50:.4f} (mean Average Precision at IoU=0.5)")
         print(f"  mAP@0.5:0.95:  {results.box.map:.4f} (mean Average Precision at IoU=0.5:0.95)")
-        print(f"  Precision:     {results.box.p:.4f} (overall precision)")
-        print(f"  Recall:        {results.box.r:.4f} (overall recall)")
-        print(f"  F1-Score:      {results.box.f1:.4f} (harmonic mean of precision and recall)")
+        print(f"  Precision:     {results.box.mp:.4f} (overall precision)")
+        print(f"  Recall:        {results.box.mr:.4f} (overall recall)")
+        print(f"  F1-Score:      {results.box.f1.mean():.4f} (harmonic mean of precision and recall)")
         
         # Per-class metrics if requested
         if args.verbose and hasattr(results, 'names') and len(results.names) > 1:
@@ -98,9 +98,8 @@ def main():
         # Additional metrics
         print("\nAdditional Metrics:")
         print(f"  Number of Classes: {len(results.names) if hasattr(results, 'names') else 'N/A'}")
-        if hasattr(results.box, 'mp') and hasattr(results.box, 'mr'):
-            print(f"  mP:            {results.box.mp:.4f} (mean precision across classes)")
-            print(f"  mR:            {results.box.mr:.4f} (mean recall across classes)")
+        print(f"  mP:            {results.box.mp:.4f} (mean precision across classes)")
+        print(f"  mR:            {results.box.mr:.4f} (mean recall across classes)")
         
     else:
         # For cases where results is a dict or other format
@@ -140,9 +139,9 @@ def main():
             f.write("Overall Detection Metrics:\n")
             f.write(f"  mAP@0.5:       {results.box.map50:.4f}\n")
             f.write(f"  mAP@0.5:0.95:  {results.box.map:.4f}\n")
-            f.write(f"  Precision:     {results.box.p:.4f}\n")
-            f.write(f"  Recall:        {results.box.r:.4f}\n")
-            f.write(f"  F1-Score:      {results.box.f1:.4f}\n")
+            f.write(f"  Precision:     {results.box.mp:.4f}\n")
+            f.write(f"  Recall:        {results.box.mr:.4f}\n")
+            f.write(f"  F1-Score:      {results.box.f1.mean():.4f}\n")
             
             # Per-class metrics if available
             if hasattr(results, 'names') and len(results.names) > 1:
@@ -154,9 +153,8 @@ def main():
             # Additional metrics
             f.write("\nAdditional Metrics:\n")
             f.write(f"  Number of Classes: {len(results.names) if hasattr(results, 'names') else 'N/A'}\n")
-            if hasattr(results.box, 'mp') and hasattr(results.box, 'mr'):
-                f.write(f"  mP:            {results.box.mp:.4f}\n")
-                f.write(f"  mR:            {results.box.mr:.4f}\n")
+            f.write(f"  mP:            {results.box.mp:.4f}\n")
+            f.write(f"  mR:            {results.box.mr:.4f}\n")
         
         # Speed metrics if available
         if hasattr(results, 'speed'):
@@ -168,60 +166,9 @@ def main():
             f.write(f"  Total:         {total_speed:.2f}ms per image\n")
             f.write(f"  FPS:           {1000/total_speed:.2f} frames per second\n")
     
-    # 2. Save as JSON file
-    results_json_path = os.path.join(args.save_dir, f"evaluation_results_{args.split}.json")
-    json_data = {
-        "model": args.weights,
-        "dataset": args.data,
-        "split": args.split,
-        "image_size": args.imgsz,
-        "confidence_threshold": args.conf,
-        "iou_threshold": args.iou
-    }
-    
-    if hasattr(results, 'box'):
-        json_data.update({
-            "metrics": {
-                "mAP50": float(results.box.map50),
-                "mAP50_95": float(results.box.map),
-                "precision": float(results.box.p),
-                "recall": float(results.box.r),
-                "f1_score": float(results.box.f1)
-            }
-        })
-        
-        # Per-class metrics
-        if hasattr(results, 'names') and len(results.names) > 1:
-            class_metrics = {}
-            for i, class_name in results.names.items():
-                if i < len(results.box.ap50):
-                    class_metrics[class_name] = float(results.box.ap50[i])
-            json_data["class_metrics"] = class_metrics
-            
-        # Additional metrics
-        if hasattr(results.box, 'mp') and hasattr(results.box, 'mr'):
-            json_data["metrics"].update({
-                "mP": float(results.box.mp),
-                "mR": float(results.box.mr)
-            })
-    
-    # Speed metrics
-    if hasattr(results, 'speed'):
-        total_speed = sum(results.speed.values())
-        json_data["speed"] = {
-            "preprocess_ms": results.speed['preprocess'],
-            "inference_ms": results.speed['inference'],
-            "postprocess_ms": results.speed['postprocess'],
-            "total_ms": total_speed,
-            "fps": 1000/total_speed
-        }
-    
-    with open(results_json_path, 'w') as f:
-        json.dump(json_data, f, indent=4)
-    
     print(f"Evaluation results saved in '{args.save_dir}' directory:")
     print(f"  - Text format: {results_txt_path}")
-    print(f"  - JSON format: {results_json_path}")
+    #print(f"  - JSON format: {results_json_path}")
 
 if __name__ == '__main__':
     main()
