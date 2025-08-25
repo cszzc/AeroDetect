@@ -26,9 +26,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-requirements.txt
-setup.py
-ultralytics.egg-info
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -193,3 +190,6 @@ docs.zip
 # Ignore local configuration files
 *.local
 config.local.*
+
+# Requirements files
+requirements*.txt

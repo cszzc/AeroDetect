@@ -7,5 +7,5 @@ python evaluation.py \
   --split test \
   --conf 0.001 \
   --iou 0.6 \
-  --save-dir evaluation_results \
+  --save-dir /root/autodl-tmp/ultralytics-mainPro/evaluation_results \
   "$@"
