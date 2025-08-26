@@ -2,6 +2,7 @@ import argparse
 import json
 from ultralytics import YOLO
 from ultralytics.utils import TQDM
+from ultralytics.utils.torch_utils import get_num_params, get_flops
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Evaluate YOLO model on VisDrone dataset')
@@ -67,6 +68,10 @@ def main():
         device=args.device
     )
 
+    # Get model information (parameters and FLOPs)
+    params = get_num_params(model.model)
+    flops = get_flops(model.model, args.imgsz)
+
     # Print detailed metrics
     print("\n" + "="*90)
     print("YOLO Model Evaluation Results on VisDrone Dataset")
@@ -114,6 +119,14 @@ def main():
         print(f"  Postprocess:   {results.speed['postprocess']:.2f}ms per image")
         print(f"  Total:         {total_speed:.2f}ms per image")
         print(f"  FPS:           {1000/total_speed:.2f} frames per second")
+    
+    # Display model information
+    print("\nModel Information:")
+    print(f"  Parameters:    {params:,} ({params/1e6:.2f} M)")
+    if flops > 0:
+        print(f"  GFLOPs:        {flops:.2f} GFLOPs")
+    else:
+        print("  GFLOPs:        N/A")
     
     print("="*90 + "\n")
 
@@ -165,6 +178,14 @@ def main():
             f.write(f"  Postprocess:   {results.speed['postprocess']:.2f}ms per image\n")
             f.write(f"  Total:         {total_speed:.2f}ms per image\n")
             f.write(f"  FPS:           {1000/total_speed:.2f} frames per second\n")
+        
+        # Model information
+        f.write("\nModel Information:\n")
+        f.write(f"  Parameters:    {params:,} ({params/1e6:.2f} M)\n")
+        if flops > 0:
+            f.write(f"  GFLOPs:        {flops:.2f} GFLOPs\n")
+        else:
+            f.write("  GFLOPs:        N/A\n")
     
     print(f"Evaluation results saved in '{args.save_dir}' directory:")
     print(f"  - Text format: {results_txt_path}")
